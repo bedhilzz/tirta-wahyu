@@ -1,11 +1,14 @@
 package com.tirtawahyu;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 
@@ -21,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.printButton)
     Button printButton;
+
+    @BindView(R.id.typeOption)
+    RadioGroup typeOption;
 
     @BindView(R.id.ticketList)
     RecyclerView ticketList;
@@ -45,12 +51,31 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ticketCount = etTicketCount.getText().toString();
+                int selectedId = typeOption.getCheckedRadioButtonId();
+                RadioButton radioButton = (RadioButton) findViewById(selectedId);
+
+                String tipe = (String) radioButton.getText();
+                int ticketCount = Integer.parseInt(etTicketCount.getText().toString());
+                int ticketPrice = 4000;
+
+                int totalPrice = ticketCount * ticketPrice;
+
+                Ticket ticket = new Ticket();
+                ticket.setTipe(tipe);
+                ticket.setJumlah(ticketCount);
+                ticket.setTotal(totalPrice);
+
+                ticketAdapter.addData(ticket);
+                ticketAdapter.notifyDataSetChanged();
             }
         });
     }
 
     private void initAdapter() {
-        ticketAdapter = new TicketAdapter(new ArrayList<Ticket>());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        ticketList.setLayoutManager(mLayoutManager);
+
+        ticketAdapter = new TicketAdapter(this, new ArrayList<Ticket>());
+        ticketList.setAdapter(ticketAdapter);
     }
 }
