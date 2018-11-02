@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "681311487219",
+    "firebase_url": "https://tirta-wahyu.firebaseio.com",
+    "project_id": "tirta-wahyu",
+    "storage_bucket": "tirta-wahyu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681311487219:android:d9553dae179cb57d",
+        "android_client_info": {
+          "package_name": "com.tirtawahyu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681311487219-jp13tvpdd4s6mvsnc3oi1jpj01jduk0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC75REUIRvEd3nXUFAtTjGDzEqoJB-3_8s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

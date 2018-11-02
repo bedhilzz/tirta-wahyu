@@ -12,8 +12,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,34 +52,63 @@ public class MainActivity extends AppCompatActivity implements Updateable {
         initComponent();
     }
 
+    @Override
+    public void updateUI() {
+        boolean status = ticketAdapter.getItemCount() > 0;
+        printButton.setEnabled(status);
+
+        String totalPrice = Util.formatPrice(ticketAdapter.getTotalPrice());
+        tvTotalPrice.setText(totalPrice);
+    }
+
     private void initComponent() {
         initAddButton();
+        initPrintButton();
         initAdapter();
         initTypeOption();
         initSpinner();
+    }
+
+    private void resetComponent() {
+        ticketAdapter.setTicketList(new ArrayList<Ticket>());
+        ticketAdapter.notifyDataSetChanged();
+
+        String dummyPrice = getResources().getString(R.string.dummy_price);
+        tvTotalPrice.setText(dummyPrice);
+
+        initTypeOption();
+
+        spTicketCount.setSelection(0);
+
+        printButton.setEnabled(false);
     }
 
     private void initAddButton() {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int selectedId = typeOption.getCheckedRadioButtonId();
-                RadioButton radioButton = (RadioButton) findViewById(selectedId);
-
-                String tipe = (String) radioButton.getText();
-                int ticketCount = Integer.parseInt(spTicketCount.getSelectedItem().toString());
-                int ticketPrice = Constants.TIKET_UMUM;
-                int subTotalPrice = ticketCount * ticketPrice;
-
-                Ticket ticket = new Ticket();
-                ticket.setTicketId(selectedId);
-                ticket.setTipe(tipe);
-                ticket.setJumlah(ticketCount);
-                ticket.setTotal(subTotalPrice);
+                Ticket ticket = createTicket();
 
                 ticketAdapter.addData(ticket);
 
                 updateUI();
+            }
+        });
+    }
+
+    private void initPrintButton() {
+        printButton.setEnabled(false);
+        printButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseFirestore database = FirebaseFirestore.getInstance();
+                CollectionReference receiptRef = database.collection("receipt");
+
+                Receipt receipt = createReceipt();
+
+                receiptRef.add(receipt);
+
+                resetComponent();
             }
         });
     }
@@ -107,9 +139,48 @@ public class MainActivity extends AppCompatActivity implements Updateable {
         spTicketCount.setAdapter(adapter);
     }
 
-    @Override
-    public void updateUI() {
-        String totalPrice = Util.formatPrice(ticketAdapter.getTotalPrice());
-        tvTotalPrice.setText(totalPrice);
+    private Ticket createTicket() {
+        int selectedId = typeOption.getCheckedRadioButtonId();
+        RadioButton radioButton = (RadioButton) findViewById(selectedId);
+
+        String tipe = (String) radioButton.getText();
+        int ticketCount = Integer.parseInt(spTicketCount.getSelectedItem().toString());
+        int ticketPrice = Constants.TIKET_UMUM;
+        int subTotalPrice = ticketCount * ticketPrice;
+
+        Ticket ticket = new Ticket();
+        ticket.setTicketId(selectedId);
+        ticket.setTipe(tipe);
+        ticket.setJumlah(ticketCount);
+        ticket.setTotal(subTotalPrice);
+
+        return ticket;
+    }
+
+    private Receipt createReceipt() {
+        ArrayList<Ticket> tickets = ticketAdapter.getTicketList();
+
+        int umum = 0, member = 0, freePass = 0;
+        int total = ticketAdapter.getTotalPrice();
+        Date now = new Date();
+
+        for(Ticket t : tickets) {
+            int ticketId = t.getTicketId();
+            int jumlah = t.getJumlah();
+
+            switch (ticketId) {
+                case R.id.radioUmum:
+                    umum = jumlah;
+                    break;
+                case R.id.radioMember:
+                    member = jumlah;
+                    break;
+                case R.id.radioFreePass:
+                    freePass = jumlah;
+                    break;
+            }
+        }
+
+        return new Receipt(umum, member, freePass, total, now);
     }
 }

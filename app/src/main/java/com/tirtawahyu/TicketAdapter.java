@@ -67,6 +67,14 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         this.ticketList = ticketList;
     }
 
+    public ArrayList<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(ArrayList<Ticket> ticketList) {
+        this.ticketList = ticketList;
+    }
+
     @NonNull
     @Override
     public TicketViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -123,7 +131,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
 
     private void delete(int index) {
         ticketList.remove(index);
-        notifyDataSetChanged();
         context.updateUI();
+        notifyDataSetChanged();
     }
 }
