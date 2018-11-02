@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Tirta Wahyu</string>
+
+    <string name="tv_type">Tipe</string>
+    <string name="tv_quantity">Jumlah</string>
+    <string name="tv_sub_total">Sub-Total</string>
+    <string name="tv_total">Total</string>
+
+    <string name="button_delete">Hapus</string>
+    <string name="button_print">Cetak</string>
+    <string name="button_add">Tambah</string>
+
+    <string name="radio_general">Umum</string>
+    <string name="radio_member">Member</string>
+    <string name="radio_free_pass">Free Pass</string>
+
+    <string name="dummy_price">Rp10.000</string>
+    <string name="dummy_type">Umum</string>
+    <string name="dummy_quantity">10</string>
 </resources>

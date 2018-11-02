@@ -5,9 +5,18 @@ package com.tirtawahyu;
  */
 
 public class Ticket {
+    private int ticketId;
     private String tipe;
     private int jumlah;
     private int total;
+
+    public int getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(int ticketId) {
+        this.ticketId = ticketId;
+    }
 
     public String getTipe() {
         return tipe;
@@ -31,5 +40,11 @@ public class Ticket {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Ticket other = (Ticket) obj;
+        return ticketId == other.ticketId;
     }
 }
