@@ -1,6 +1,5 @@
-package com.tirtawahyu;
+package com.tirtawahyu.ui.main;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tirtawahyu.R;
+import com.tirtawahyu.model.Ticket;
+import com.tirtawahyu.util.Constants;
+import com.tirtawahyu.util.Updateable;
+import com.tirtawahyu.util.Util;
+
 import java.util.ArrayList;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.tirtawahyu;
+package com.tirtawahyu.model;
 
 import java.util.Date;
 

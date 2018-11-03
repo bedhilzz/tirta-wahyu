@@ -17,4 +17,9 @@
     <string name="dummy_price">Rp10.000</string>
     <string name="dummy_type">Umum</string>
     <string name="dummy_quantity">10</string>
+
+    <string name="button_login">Masuk</string>
+
+    <string name="login_failed_text">Gagal Masuk, Username atau Password Salah.</string>
+    <string name="login_invalid">Username dan Password harus di isi.</string>
 </resources>

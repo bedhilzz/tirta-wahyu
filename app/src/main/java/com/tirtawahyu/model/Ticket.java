@@ -1,4 +1,4 @@
-package com.tirtawahyu;
+package com.tirtawahyu.model;
 
 /**
  * Created by Fadhil on 31-Oct-18.

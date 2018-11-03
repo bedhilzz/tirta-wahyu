@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:visibility="visible"
-        tools:context="com.tirtawahyu.MainActivity">
+        tools:context="com.tirtawahyu.ui.main.MainActivity">
 
         <View
             android:id="@+id/verticalDivider"

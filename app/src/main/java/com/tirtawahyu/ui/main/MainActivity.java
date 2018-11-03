@@ -1,4 +1,4 @@
-package com.tirtawahyu;
+package com.tirtawahyu.ui.main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,12 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.tirtawahyu.R;
+import com.tirtawahyu.model.Receipt;
+import com.tirtawahyu.model.Ticket;
+import com.tirtawahyu.util.Constants;
+import com.tirtawahyu.util.Updateable;
+import com.tirtawahyu.util.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements Updateable {
 
         ButterKnife.bind(this);
         initComponent();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 
     @Override
