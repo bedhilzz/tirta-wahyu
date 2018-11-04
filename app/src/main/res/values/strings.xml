@@ -5,6 +5,10 @@
     <string name="tv_quantity">Jumlah</string>
     <string name="tv_sub_total">Sub-Total</string>
     <string name="tv_total">Total</string>
+    <string name="tv_loading">Loading...</string>
+
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
 
     <string name="button_delete">Hapus</string>
     <string name="button_print">Cetak</string>
@@ -22,4 +26,15 @@
 
     <string name="login_failed_text">Gagal Masuk, Username atau Password Salah.</string>
     <string name="login_invalid">Username dan Password harus di isi.</string>
+    <string name="title_activity_admin">AdminActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Administrator</string>
+    <string name="nav_header_subtitle">admin@tw.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_statistic">Statistik</string>
+    <string name="menu_price_management">Pengaturan Harga</string>
+    <string name="menu_user_management">Pengaturan Kasir</string>
 </resources>

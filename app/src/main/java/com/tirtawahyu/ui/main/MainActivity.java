@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements Updateable {
 
     private Ticket createTicket() {
         int selectedId = typeOption.getCheckedRadioButtonId();
-        RadioButton radioButton = (RadioButton) findViewById(selectedId);
+        RadioButton radioButton = findViewById(selectedId);
 
         String tipe = (String) radioButton.getText();
         int ticketCount = Integer.parseInt(spTicketCount.getSelectedItem().toString());

@@ -9,5 +9,13 @@
         <item name="android:fontFamily">@font/open_sans</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar"></style>
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">@font/open_sans</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="android:fontFamily">@font/open_sans</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="AppTheme.AppBarOverlay" />
 </resources>
