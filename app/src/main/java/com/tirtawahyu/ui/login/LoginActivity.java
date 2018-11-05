@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,13 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthProvider;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.functions.FirebaseFunctions;
 import com.tirtawahyu.R;
 import com.tirtawahyu.ui.admin.AdminActivity;
-import com.tirtawahyu.ui.main.MainActivity;
 import com.tirtawahyu.util.Util;
 
 import butterknife.BindString;
@@ -55,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindString(R.string.login_invalid)
     String loginInfoNotValid;
+
+    final FirebaseFunctions mFunctions = FirebaseFunctions.getInstance();
+    final FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +95,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin(String email, String password) {
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
