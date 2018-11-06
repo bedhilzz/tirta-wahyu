@@ -20,11 +20,11 @@
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.admin.AdminActivity"
-            android:label="@string/title_activity_admin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".CreateAdminActivity"></activity>
     </application>
 
 </manifest>

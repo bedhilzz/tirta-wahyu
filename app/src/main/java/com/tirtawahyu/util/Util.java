@@ -25,4 +25,8 @@ public class Util {
     public static boolean validate(String username, String password) {
         return  !username.isEmpty() && !password.isEmpty();
     }
+
+    public static boolean validate(String displayName, String username, String password) {
+        return  !displayName.isEmpty() && validate(username, password);
+    }
 }

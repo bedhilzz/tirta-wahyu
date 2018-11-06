@@ -17,20 +17,25 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.tirtawahyu.R;
 import com.tirtawahyu.ui.admin.AdminActivity;
+import com.tirtawahyu.ui.main.MainActivity;
 import com.tirtawahyu.util.Util;
+
+import java.util.Map;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.etUsername)
+    @BindView(R.id.et_username)
     EditText etUsername;
 
-    @BindView(R.id.etPassword)
+    @BindView(R.id.et_password)
     EditText etPassword;
 
     @BindView(R.id.btLogin)
@@ -100,9 +105,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-                        startActivity(intent);
-                        finish();
+                        FirebaseUser user = task.getResult().getUser();
+                        decideActivityFor(user);
                     } else {
                         Toast.makeText(LoginActivity.this, loginFailedText,
                                 Toast.LENGTH_SHORT).show();
@@ -110,6 +114,31 @@ public class LoginActivity extends AppCompatActivity {
                     hideLoading();
                 }
             });
+    }
+
+    private void decideActivityFor(FirebaseUser user) {
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            @Override
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    Intent intent;
+                    Map<String, Object> claims = task.getResult().getClaims();
+                    boolean isAdmin = (boolean) claims.get("role");
+
+                    if (isAdmin) {
+                        intent = new Intent(LoginActivity.this, AdminActivity.class);
+                    } else {
+                        intent = new Intent(LoginActivity.this, MainActivity.class);
+                    }
+                    startActivity(intent);
+                    finish();
+                } else {
+                    String taskFailed = getString(R.string.unknown_failed);
+                    Toast.makeText(getApplicationContext(), taskFailed,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void showLoading() {

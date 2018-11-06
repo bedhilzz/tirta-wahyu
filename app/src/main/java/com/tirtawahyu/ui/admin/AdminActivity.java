@@ -107,16 +107,19 @@ public class AdminActivity extends AppCompatActivity
         int id = item.getItemId();
         Fragment fragment = null;
         Class fragmentClass = PriceFragment.class;
+        String titleBar = "";
 
         if (id == R.id.nav_price_management) {
-
+            titleBar = getString(R.string.menu_price_management);
         } else if (id == R.id.nav_statistic) {
+            titleBar = getString(R.string.menu_statistic);
             fragmentClass = PriceFragment.class;
         } else if (id == R.id.nav_user_management) {
-
+            titleBar = getString(R.string.menu_user_management);
         }
 
         try {
+            toolbar.setTitle(titleBar);
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
