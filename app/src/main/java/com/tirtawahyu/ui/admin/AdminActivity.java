@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.tirtawahyu.R;
 import com.tirtawahyu.util.Loading;
@@ -47,6 +48,8 @@ public class AdminActivity extends AppCompatActivity
     @BindView(R.id.content_admin)
     ConstraintLayout adminLayout;
 
+    final FirebaseAuth mAuth= FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +70,7 @@ public class AdminActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
+        mAuth.signOut();
         finish();
     }
 

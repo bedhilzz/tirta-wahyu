@@ -29,4 +29,9 @@ public class Util {
     public static boolean validate(String displayName, String username, String password) {
         return  !displayName.isEmpty() && validate(username, password);
     }
+
+    public static boolean isAdmin(String role) {
+        String admin = Constants.ADMIN_ROLE;
+        return role.equals(admin);
+    }
 }

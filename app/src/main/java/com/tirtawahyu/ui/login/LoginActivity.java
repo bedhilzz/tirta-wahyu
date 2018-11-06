@@ -13,19 +13,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.functions.FirebaseFunctions;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.tirtawahyu.R;
 import com.tirtawahyu.ui.admin.AdminActivity;
 import com.tirtawahyu.ui.main.MainActivity;
 import com.tirtawahyu.util.Util;
-
-import java.util.Map;
 
 import butterknife.BindString;
 import butterknife.BindView;
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindString(R.string.login_invalid)
     String loginInfoNotValid;
 
-    final FirebaseFunctions mFunctions = FirebaseFunctions.getInstance();
+    final FirebaseFirestore mFireStore = FirebaseFirestore.getInstance();
     final FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     @Override
@@ -70,8 +70,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        hideLoading();
+        if (loginLayout.getVisibility() == View.GONE) {
+            hideLoading();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void initComponent() {
@@ -101,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void attemptLogin(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
@@ -110,35 +113,37 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(LoginActivity.this, loginFailedText,
                                 Toast.LENGTH_SHORT).show();
+                        hideLoading();
                     }
-                    hideLoading();
                 }
             });
     }
 
     private void decideActivityFor(FirebaseUser user) {
-        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            @Override
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                if (task.isSuccessful()) {
-                    Intent intent;
-                    Map<String, Object> claims = task.getResult().getClaims();
-                    boolean isAdmin = (boolean) claims.get("role");
+        mFireStore.collection("roles").document(user.getUid()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent;
+                            DocumentSnapshot result = task.getResult();
+                            boolean isAdmin = Util.isAdmin((String) result.get("role"));
 
-                    if (isAdmin) {
-                        intent = new Intent(LoginActivity.this, AdminActivity.class);
-                    } else {
-                        intent = new Intent(LoginActivity.this, MainActivity.class);
+                            if (isAdmin) {
+                                intent = new Intent(LoginActivity.this, AdminActivity.class);
+                            } else {
+                                intent = new Intent(LoginActivity.this, MainActivity.class);
+                            }
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            String taskFailed = getString(R.string.unknown_failed);
+                            Toast.makeText(getApplicationContext(), taskFailed,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        hideLoading();
                     }
-                    startActivity(intent);
-                    finish();
-                } else {
-                    String taskFailed = getString(R.string.unknown_failed);
-                    Toast.makeText(getApplicationContext(), taskFailed,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                });
     }
 
     private void showLoading() {

@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.tirtawahyu.R;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements Updateable {
 
     private TicketAdapter ticketAdapter;
 
+    final FirebaseAuth mAuth= FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements Updateable {
     @Override
     protected void onPause() {
         super.onPause();
+        mAuth.signOut();
         finish();
     }
 
