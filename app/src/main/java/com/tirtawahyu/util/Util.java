@@ -1,6 +1,8 @@
 package com.tirtawahyu.util;
 
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 public class Util {
@@ -33,5 +35,12 @@ public class Util {
     public static boolean isAdmin(String role) {
         String admin = Constants.ADMIN_ROLE;
         return role.equals(admin);
+    }
+
+    public static String formatDate(long dateLong) {
+        Date date = new Date(dateLong);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy");
+        String dateStr = dateFormat.format(date);
+        return dateStr;
     }
 }

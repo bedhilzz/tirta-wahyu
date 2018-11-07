@@ -68,11 +68,11 @@ public class PriceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_price_list, container, false);
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             final Context context = view.getContext();
             final Loading loadingContext = (Loading) context;
 
+            ((Loading) context).showLoading();
             final RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));

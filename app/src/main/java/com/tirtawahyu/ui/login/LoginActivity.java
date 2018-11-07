@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tvLoading)
     TextView tvLoading;
 
-    @BindView(R.id.loginLayout)
+    @BindView(R.id.login_layout)
     ConstraintLayout loginLayout;
 
     @BindString(R.string.login_failed_text)

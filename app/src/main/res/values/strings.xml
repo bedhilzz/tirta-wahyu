@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Tirta Wahyu</string>
+    <string name="create_user_activity">Pendaftaran Pengguna</string>
 
     <string name="tv_type">Tipe</string>
     <string name="tv_quantity">Jumlah</string>
@@ -24,13 +25,17 @@
     <string name="dummy_price">Rp10.000</string>
     <string name="dummy_type">Umum</string>
     <string name="dummy_quantity">10</string>
+    <string name="dummy_display_name">User</string>
 
     <string name="button_login">Masuk</string>
     <string name="button_register">Daftar</string>
 
     <string name="login_failed_text">Gagal Masuk, Username atau Password Salah.</string>
     <string name="login_invalid">Username dan Password harus di isi.</string>
-    <string name="register_invalid">Username dan Password harus di isi.</string>
+
+    <string name="register_success">Pendaftaran Berhasil.</string>
+    <string name="register_invalid">Nama, Username dan Password harus di isi.</string>
+
     <string name="title_activity_admin">Pengaturan Admin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

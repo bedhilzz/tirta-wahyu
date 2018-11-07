@@ -31,7 +31,7 @@
             android:background="?android:attr/listDivider" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_nav_header_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -45,8 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="@+id/textView">
+            app:layout_constraintStart_toEndOf="@+id/tv_nav_header_subtitle"
+            app:layout_constraintTop_toTopOf="@+id/tv_nav_header_subtitle">
 
             <RadioButton
                 android:id="@+id/radioUmum"

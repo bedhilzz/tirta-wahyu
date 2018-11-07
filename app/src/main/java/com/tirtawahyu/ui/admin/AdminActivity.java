@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.tirtawahyu.R;
+import com.tirtawahyu.UserManagementFragment;
 import com.tirtawahyu.util.Loading;
+import com.tirtawahyu.util.Util;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +50,9 @@ public class AdminActivity extends AppCompatActivity
     @BindView(R.id.content_admin)
     ConstraintLayout adminLayout;
 
+    TextView tvNavHeaderTitle;
+    TextView tvNavHeaderSubtitle;
+
     final FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     @Override
@@ -58,20 +63,28 @@ public class AdminActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
+        View headerView = navigationView.getHeaderView(0);
+        tvNavHeaderTitle = headerView.findViewById(R.id.tv_nav_header_title);
+        tvNavHeaderSubtitle = headerView.findViewById(R.id.tv_nav_header_subtitle);
+
+        String creationDate = Util.formatDate(mAuth.getCurrentUser().getMetadata().getCreationTimestamp());
+        tvNavHeaderTitle.setText(mAuth.getCurrentUser().getDisplayName());
+        tvNavHeaderSubtitle.setText(creationDate);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_price_management);
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_price_management));
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         mAuth.signOut();
-        finish();
     }
 
     @Override
@@ -120,21 +133,20 @@ public class AdminActivity extends AppCompatActivity
             fragmentClass = PriceFragment.class;
         } else if (id == R.id.nav_user_management) {
             titleBar = getString(R.string.menu_user_management);
+            fragmentClass = UserManagementFragment.class;
         }
+        toolbar.setTitle(titleBar);
 
         try {
-            toolbar.setTitle(titleBar);
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_admin, fragment).commit();
 
         drawer.closeDrawer(GravityCompat.START);
-        showLoading();
         return true;
     }
 
