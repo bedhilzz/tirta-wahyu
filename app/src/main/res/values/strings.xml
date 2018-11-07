@@ -41,7 +41,7 @@
 
     <string name="menu_statistic">Statistik</string>
     <string name="menu_price_management">Pengaturan Harga</string>
-    <string name="menu_user_management">Pengaturan Kasir</string>
+    <string name="menu_user_management">Pengaturan Pengguna</string>
 
     <string name="get_document_failed">Gagal mengambil data, silahkan coba lagi.</string>
     <string name="unknown_failed">Terjadi kesalahan, silahkan coba lagi.</string>

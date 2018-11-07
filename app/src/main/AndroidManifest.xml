@@ -24,7 +24,7 @@
         <activity
             android:name=".ui.admin.AdminActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateAdminActivity"></activity>
+        <activity android:name=".CreateUserActivity"></activity>
     </application>
 
 </manifest>

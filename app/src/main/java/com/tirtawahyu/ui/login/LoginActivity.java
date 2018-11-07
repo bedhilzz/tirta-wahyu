@@ -13,15 +13,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.GetTokenResult;
 import com.tirtawahyu.R;
 import com.tirtawahyu.ui.admin.AdminActivity;
 import com.tirtawahyu.ui.main.MainActivity;
@@ -56,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindString(R.string.login_invalid)
     String loginInfoNotValid;
 
-    final FirebaseFirestore mFireStore = FirebaseFirestore.getInstance();
     final FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     @Override
@@ -120,30 +116,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void decideActivityFor(FirebaseUser user) {
-        mFireStore.collection("roles").document(user.getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            Intent intent;
-                            DocumentSnapshot result = task.getResult();
-                            boolean isAdmin = Util.isAdmin((String) result.get("role"));
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            @Override
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    Intent intent;
+                    GetTokenResult result = task.getResult();
+                    boolean isAdmin = (boolean) result.getClaims().get("admin");
 
-                            if (isAdmin) {
-                                intent = new Intent(LoginActivity.this, AdminActivity.class);
-                            } else {
-                                intent = new Intent(LoginActivity.this, MainActivity.class);
-                            }
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            String taskFailed = getString(R.string.unknown_failed);
-                            Toast.makeText(getApplicationContext(), taskFailed,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                        hideLoading();
+                    if (isAdmin) {
+                        intent = new Intent(LoginActivity.this, AdminActivity.class);
+                    } else {
+                        intent = new Intent(LoginActivity.this, MainActivity.class);
                     }
-                });
+                    startActivity(intent);
+                    finish();
+                } else {
+                    String taskFailed = getString(R.string.unknown_failed);
+                    Toast.makeText(getApplicationContext(), taskFailed,
+                            Toast.LENGTH_SHORT).show();
+                }
+                hideLoading();
+            }
+        });
     }
 
     private void showLoading() {
