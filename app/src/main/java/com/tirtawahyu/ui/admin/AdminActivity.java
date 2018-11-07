@@ -121,6 +121,8 @@ public class AdminActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        drawer.closeDrawer(GravityCompat.START);
+
         int id = item.getItemId();
         Fragment fragment = null;
         Class fragmentClass = PriceFragment.class;
@@ -136,6 +138,7 @@ public class AdminActivity extends AppCompatActivity
             fragmentClass = UserManagementFragment.class;
         }
         toolbar.setTitle(titleBar);
+        setTitle(titleBar);
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -145,8 +148,6 @@ public class AdminActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_admin, fragment).commit();
-
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
