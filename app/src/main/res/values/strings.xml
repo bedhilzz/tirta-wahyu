@@ -22,7 +22,7 @@
     <string name="radio_administrator">Administrator</string>
     <string name="radio_cashier">Kasir</string>
 
-    <string name="dummy_price">Rp10.000</string>
+    <string name="dummy_price">Rp0</string>
     <string name="dummy_type">Umum</string>
     <string name="dummy_quantity">10</string>
     <string name="dummy_display_name">User</string>

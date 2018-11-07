@@ -1,24 +1,33 @@
-package com.tirtawahyu.ui.main;
+package com.tirtawahyu.ui.cashier;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.tirtawahyu.R;
 import com.tirtawahyu.model.Receipt;
 import com.tirtawahyu.model.Ticket;
 import com.tirtawahyu.util.Constants;
+import com.tirtawahyu.util.Loading;
 import com.tirtawahyu.util.Updateable;
 import com.tirtawahyu.util.Util;
 
@@ -29,7 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements Updateable {
+public class CashierActivity extends AppCompatActivity implements Updateable, Loading {
     @BindView(R.id.ticketCount)
     Spinner spTicketCount;
 
@@ -48,6 +57,15 @@ public class MainActivity extends AppCompatActivity implements Updateable {
     @BindView(R.id.totalPrice)
     TextView tvTotalPrice;
 
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
+
+    @BindView(R.id.tvLoading)
+    TextView tvLoading;
+
+    @BindView(R.id.cashier_layout)
+    LinearLayout cashierLayout;
+
     private TicketAdapter ticketAdapter;
 
     final FirebaseAuth mAuth= FirebaseAuth.getInstance();
@@ -55,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements Updateable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_cashier);
 
         ButterKnife.bind(this);
         initComponent();
@@ -117,14 +135,9 @@ public class MainActivity extends AppCompatActivity implements Updateable {
         printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseFirestore database = FirebaseFirestore.getInstance();
-                CollectionReference receiptRef = database.collection("receipt");
-
                 Receipt receipt = createReceipt();
-
-                receiptRef.add(receipt);
-
-                resetComponent();
+                showLoading();
+                pushToDatabase(receipt);
             }
         });
     }
@@ -198,5 +211,43 @@ public class MainActivity extends AppCompatActivity implements Updateable {
         }
 
         return new Receipt(umum, member, freePass, total, now);
+    }
+
+    private void pushToDatabase(Receipt receipt) {
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.setFirestoreSettings(settings);
+
+        CollectionReference receiptRef = database.collection("receipt");
+
+        receiptRef.add(receipt).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                resetComponent();
+                hideLoading();
+            }
+        });
+
+        resetComponent();
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        tvLoading.setVisibility(View.VISIBLE);
+        cashierLayout.setVisibility(View.GONE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+        tvLoading.setVisibility(View.GONE);
+        cashierLayout.setVisibility(View.VISIBLE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 }

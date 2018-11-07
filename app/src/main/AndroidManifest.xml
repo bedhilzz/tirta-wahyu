@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.cashier.CashierActivity"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ui.admin.AdminActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".ui.admin.CreateUserActivity"></activity>
     </application>
 
 </manifest>

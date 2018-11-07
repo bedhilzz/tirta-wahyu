@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.tirtawahyu.R;
 import com.tirtawahyu.ui.admin.AdminActivity;
-import com.tirtawahyu.ui.main.MainActivity;
+import com.tirtawahyu.ui.cashier.CashierActivity;
 import com.tirtawahyu.util.Util;
 
 import butterknife.BindString;
@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (isAdmin) {
                         intent = new Intent(LoginActivity.this, AdminActivity.class);
                     } else {
-                        intent = new Intent(LoginActivity.this, MainActivity.class);
+                        intent = new Intent(LoginActivity.this, CashierActivity.class);
                     }
                     startActivity(intent);
                     finish();

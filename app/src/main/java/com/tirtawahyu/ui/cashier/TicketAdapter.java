@@ -1,4 +1,4 @@
-package com.tirtawahyu.ui.main;
+package com.tirtawahyu.ui.cashier;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
