@@ -10,6 +10,13 @@ public class Ticket {
     private int jumlah;
     private int total;
 
+    public Ticket(int ticketId, String tipe, int jumlah, int total) {
+        this.ticketId = ticketId;
+        this.tipe = tipe;
+        this.jumlah = jumlah;
+        this.total = total;
+    }
+
     public int getTicketId() {
         return ticketId;
     }

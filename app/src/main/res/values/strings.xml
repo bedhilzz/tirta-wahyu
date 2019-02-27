@@ -2,6 +2,8 @@
     <string name="app_name">Tirta Wahyu</string>
     <string name="create_user_activity">Pendaftaran Pengguna</string>
 
+    <string name="double_back_to_exit">Tekan Sekali lagi Untuk Keluar</string>
+
     <string name="tv_type">Tipe</string>
     <string name="tv_quantity">Jumlah</string>
     <string name="tv_sub_total">Sub-Total</string>

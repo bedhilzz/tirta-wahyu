@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             intent = new Intent(LoginActivity.this, CashierActivity.class);
         }
         startActivity(intent);
+        binding.unbind();
         finish();
     }
 }

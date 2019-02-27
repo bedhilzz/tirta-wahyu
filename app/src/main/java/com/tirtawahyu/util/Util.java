@@ -1,6 +1,9 @@
 package com.tirtawahyu.util;
 
+import com.tirtawahyu.R;
+
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -15,6 +18,21 @@ public class Util {
         String formattedPrice = formatRupiah.format(price);
 
         return formattedPrice;
+    }
+
+    public static int parsePrice(String priceStr) {
+        Locale localeID = new Locale("in", "ID");
+
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+
+        int price = 0;
+        try {
+            Number priceNumber = formatRupiah.parse(priceStr);
+            price = priceNumber.intValue();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return price;
     }
 
     public static String formatUsername(String username) {
@@ -47,5 +65,18 @@ public class Util {
     public static boolean sameDay(Date date1, Date date2) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
         return fmt.format(date1).equals(fmt.format(date2));
+    }
+
+    public static int priceTicketWith(int ticketId) {
+        int price = 0;
+        switch (ticketId) {
+            case R.id.radioUmum:
+                price = Constants.TIKET_UMUM;
+                break;
+            case R.id.radioMember:
+                price = Constants.TIKET_MEMBER;
+                break;
+        }
+        return price;
     }
 }

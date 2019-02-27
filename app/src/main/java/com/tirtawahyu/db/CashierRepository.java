@@ -1,21 +1,39 @@
 package com.tirtawahyu.db;
 
-import android.app.Application;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.tirtawahyu.model.Receipt;
 
 public class CashierRepository {
     private static CashierRepository INSTANCE;
+    private FirebaseFirestore database;
 
-    private CashierRepository(Application application) {
+    private CashierRepository() {
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+
+        database = FirebaseFirestore.getInstance();
+        database.setFirestoreSettings(settings);
     }
 
-    public static CashierRepository newInstance(Application application) {
+    public static CashierRepository newInstance() {
         if (INSTANCE == null) {
             synchronized (CashierRepository.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new CashierRepository(application);
+                    INSTANCE = new CashierRepository();
                 }
             }
         }
         return INSTANCE;
+    }
+
+    public Task<DocumentReference> createTransaction(Receipt receipt) {
+        CollectionReference receiptRef = database.collection("receipt");
+
+        return receiptRef.add(receipt);
     }
 }

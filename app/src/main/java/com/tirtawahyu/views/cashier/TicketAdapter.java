@@ -113,7 +113,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
             int jumlah = existingTicket.getJumlah();
 
             jumlah += ticket.getJumlah();
-            int total = jumlah * Constants.TIKET_UMUM;
+            int total = jumlah * Util.priceTicketWith(existingTicket.getTicketId());
 
             ticket.setJumlah(jumlah);
             ticket.setTotal(total);
