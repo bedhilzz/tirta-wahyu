@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.tirtawahyu.R;
 import com.tirtawahyu.model.Ticket;
-import com.tirtawahyu.util.Constants;
 import com.tirtawahyu.util.Updateable;
 import com.tirtawahyu.util.Util;
 

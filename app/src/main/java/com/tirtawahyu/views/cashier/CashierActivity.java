@@ -9,41 +9,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.tirtawahyu.R;
 import com.tirtawahyu.databinding.ActivityCashierBinding;
-import com.tirtawahyu.model.Receipt;
 import com.tirtawahyu.model.Ticket;
-import com.tirtawahyu.util.Constants;
-import com.tirtawahyu.util.Loading;
 import com.tirtawahyu.util.Updateable;
 import com.tirtawahyu.util.Util;
 import com.tirtawahyu.viewmodels.cashier.CashierViewModel;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import butterknife.BindString;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class CashierActivity extends AppCompatActivity implements Updateable, OnCompleteListener<DocumentReference> {
     private TicketAdapter ticketAdapter;
