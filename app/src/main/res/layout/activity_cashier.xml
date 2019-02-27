@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:visibility="visible"
-            tools:context="com.tirtawahyu.ui.cashier.CashierActivity">
+            tools:context="com.tirtawahyu.views.cashier.CashierActivity">
 
             <View
                 android:id="@+id/verticalDivider"

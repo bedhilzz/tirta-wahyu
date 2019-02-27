@@ -1,4 +1,4 @@
-package com.tirtawahyu.ui.admin;
+package com.tirtawahyu.views.admin;
 
 
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tirtawahyu.R;
-import com.tirtawahyu.ui.admin.CreateUserActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

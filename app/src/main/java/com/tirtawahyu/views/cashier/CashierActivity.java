@@ -1,4 +1,4 @@
-package com.tirtawahyu.ui.cashier;
+package com.tirtawahyu.views.cashier;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

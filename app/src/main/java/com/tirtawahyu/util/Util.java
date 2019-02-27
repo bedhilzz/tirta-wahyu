@@ -43,4 +43,9 @@ public class Util {
         String dateStr = dateFormat.format(date);
         return dateStr;
     }
+
+    public static boolean sameDay(Date date1, Date date2) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        return fmt.format(date1).equals(fmt.format(date2));
+    }
 }

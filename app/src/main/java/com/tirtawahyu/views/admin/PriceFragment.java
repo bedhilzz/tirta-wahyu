@@ -1,4 +1,4 @@
-package com.tirtawahyu.ui.admin;
+package com.tirtawahyu.views.admin;
 
 import android.content.Context;
 import android.os.Bundle;

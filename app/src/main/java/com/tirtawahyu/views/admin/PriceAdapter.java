@@ -1,4 +1,4 @@
-package com.tirtawahyu.ui.admin;
+package com.tirtawahyu.views.admin;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.tirtawahyu.R;
-import com.tirtawahyu.ui.admin.PriceFragment.OnListFragmentInteractionListener;
+import com.tirtawahyu.views.admin.PriceFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 

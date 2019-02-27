@@ -1,4 +1,4 @@
-package com.tirtawahyu.ui.admin;
+package com.tirtawahyu.views.admin;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -76,8 +76,9 @@ public class AdminActivity extends AppCompatActivity
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_price_management);
-        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_price_management));
+        navigationView.setCheckedItem(R.id.nav_statistic);
+
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_statistic));
     }
 
     @Override
@@ -124,14 +125,14 @@ public class AdminActivity extends AppCompatActivity
 
         int id = item.getItemId();
         Fragment fragment = null;
-        Class fragmentClass = PriceFragment.class;
+        Class fragmentClass = StatisticFragment.class;
         String titleBar = "";
 
         if (id == R.id.nav_price_management) {
             titleBar = getString(R.string.menu_price_management);
         } else if (id == R.id.nav_statistic) {
             titleBar = getString(R.string.menu_statistic);
-            fragmentClass = PriceFragment.class;
+            fragmentClass = StatisticFragment.class;
         } else if (id == R.id.nav_user_management) {
             titleBar = getString(R.string.menu_user_management);
             fragmentClass = UserManagementFragment.class;
