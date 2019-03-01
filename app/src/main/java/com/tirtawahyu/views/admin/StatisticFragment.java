@@ -13,8 +13,10 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,9 +31,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class StatisticFragment extends Fragment {
     @BindView(R.id.bar_chart_view)
     BarChart barChart;
@@ -80,24 +79,22 @@ public class StatisticFragment extends Fragment {
                             for (int i = 0; i < results.size(); i++) {
                                 DocumentSnapshot snapshot = results.get(i);
 
-                                Date snapshotDate = (Date) snapshot.get("createdAt");
+                                Timestamp createdAt = (Timestamp) snapshot.get("createdAt");
+                                Date snapshotDate = createdAt.toDate();
+
                                 if (date == null) {
                                     date = snapshotDate;
                                 }
 
-
-                                total += (long) snapshot.get("total");
-                                if (Util.sameDay(date, snapshotDate)) {
-
-                                } else {
-                                    data.add(new BarEntry((float)(i), (float) total));
+                                long price = (long) snapshot.get("total");
+                                if (!Util.sameDay(date, snapshotDate)) {
+                                    data.add(new BarEntry((float)(Math.abs(i)), (float) total));
+                                    date = snapshotDate;
                                     total = 0;
                                 }
-                                long dateLong = 0;
-                                if (snapshotDate != null) {
-                                    dateLong = snapshotDate.getTime();
-                                }
+                                total += price;
                             }
+                            data.add(new BarEntry((float)(results.size()), (float) total));
                             initBarChart(data);
                         }
                     }
@@ -106,6 +103,7 @@ public class StatisticFragment extends Fragment {
 
     private void initBarChart(List<BarEntry> entries) {
         BarDataSet set = new BarDataSet(entries, "Statistik Keseluruhan");
+        set.setColor(ColorTemplate.MATERIAL_COLORS[2]);
 
         BarData data = new BarData(set);
 

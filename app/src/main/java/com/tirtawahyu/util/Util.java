@@ -67,6 +67,11 @@ public class Util {
         return fmt.format(date1).equals(fmt.format(date2));
     }
 
+    public static boolean sameMonth(Date date1, Date date2) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMM");
+        return fmt.format(date1).equals(fmt.format(date2));
+    }
+
     public static int priceTicketWith(int ticketId) {
         int price = 0;
         switch (ticketId) {
