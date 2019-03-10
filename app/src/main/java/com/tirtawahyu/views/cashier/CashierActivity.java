@@ -314,12 +314,23 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
     }
 
     private void createTransaction() {
-        if (mService.getState() == STATE_CONNECTED) {
-            viewModel.createTransaction().addOnCompleteListener(this);
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(
+                    BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
         } else {
-            showSnackBar(getString(R.string.bluetooth_not_connected));
-            binding.setIsLoading(false);
+            if (mService == null) {
+                initBluetoothService();
+            } else {
+                if (mService.getState() == STATE_CONNECTED) {
+                    viewModel.createTransaction().addOnCompleteListener(this);
+                } else {
+                    showSnackBar(getString(R.string.bluetooth_not_connected));
+                    binding.setIsLoading(false);
+                }
+            }
         }
+        binding.setIsLoading(false);
     }
 
     private void sendDataByte(byte[] data) {

@@ -187,7 +187,7 @@ public class BluetoothService {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.TOAST, "Unable to connect device");
+        bundle.putString(Constants.TOAST, "Tidak dapat terhubung ke Bluetooth printer.");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -201,7 +201,7 @@ public class BluetoothService {
         // Send a failure message back to the Activity
         Message msg = mHandler.obtainMessage(Constants.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.TOAST, "Device connection was lost");
+        bundle.putString(Constants.TOAST, "Koneksi ke Bluetooth printer terputus.");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
