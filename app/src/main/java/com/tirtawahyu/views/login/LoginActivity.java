@@ -108,6 +108,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        viewModel.username.setValue("cashier");
+        viewModel.password.setValue("password");
         binding.setViewmodel(viewModel);
 
         binding.setIsLoading(false);

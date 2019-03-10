@@ -86,7 +86,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull ItemViewHolder ticketViewHolder, int i) {
         Item ticket = itemList.get(i);
 
-        String tipe = ticket.getTipe();
+        String tipe = ticket.getTicketType();
         String total = Util.formatPrice(ticket.getPrice());
 
         ticketViewHolder.tipeInfo.setText(tipe);

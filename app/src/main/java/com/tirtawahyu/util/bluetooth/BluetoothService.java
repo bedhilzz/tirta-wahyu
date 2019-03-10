@@ -427,7 +427,7 @@ public class BluetoothService {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
-                mmOutStream.flush();//清空缓存
+                mmOutStream.flush();
                 Log.i("BTPWRITE", new String(buffer,"GBK"));
                 // Share the sent message back to the UI Activity
                 mHandler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)

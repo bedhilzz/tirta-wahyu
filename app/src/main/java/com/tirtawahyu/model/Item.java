@@ -2,12 +2,12 @@ package com.tirtawahyu.model;
 
 public class Item {
     private String itemId;
-    private String tipe;
+    private String ticketType;
     private int price;
 
-    public Item(String ticketId, String tipe, int price) {
+    public Item(String ticketId, String ticketType, int price) {
         this.itemId = ticketId;
-        this.tipe = tipe;
+        this.ticketType = ticketType;
         this.price = price;
     }
 
@@ -19,12 +19,12 @@ public class Item {
         this.itemId = itemId;
     }
 
-    public String getTipe() {
-        return tipe;
+    public String getTicketType() {
+        return ticketType;
     }
 
-    public void setTipe(String tipe) {
-        this.tipe = tipe;
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
     }
 
     public int getPrice() {
