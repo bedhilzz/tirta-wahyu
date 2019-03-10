@@ -20,6 +20,7 @@
             type="boolean" />
 
         <import type="android.view.View" />
+
         <import type="android.widget.LinearLayout" />
     </data>
 
@@ -52,9 +53,9 @@
                 android:id="@+id/itemList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
-
-            </android.support.v7.widget.RecyclerView>
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1" />
 
             <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -66,46 +67,75 @@
                 tools:context="com.tirtawahyu.views.cashier.CashierActivity">
 
                 <View
-                    android:id="@+id/verticalDivider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
+                    android:background="?android:attr/listDivider"
+                    android:visibility="@{isVertical ? View.VISIBLE : View.GONE}" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/ticketList"
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="@{isVertical ? View.GONE : View.VISIBLE}" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="10">
 
-                <TextView
-                    android:id="@+id/totalPriceInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/tv_total"
-                    app:layout_constraintBottom_toTopOf="@+id/printButton"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/ticketList"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_weight="7.5" />
 
-                <TextView
-                    android:id="@+id/totalPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@={viewmodel.totalPrice}"
-                    app:layout_constraintBottom_toTopOf="@+id/printButton"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2.5">
 
-                <Button
-                    android:id="@+id/printButton"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:enabled="@{viewmodel.printButtonEnabled}"
-                    android:text="@string/button_print"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider"
+                            android:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/totalPriceInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/tv_total"
+                            app:layout_constraintBottom_toTopOf="@+id/printButton"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/totalPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="@={viewmodel.totalPrice}"
+                            app:layout_constraintBottom_toTopOf="@+id/printButton"
+                            app:layout_constraintEnd_toEndOf="parent" />
+
+                        <Button
+                            android:id="@+id/printButton"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:enabled="@{viewmodel.printButtonEnabled}"
+                            android:text="@string/button_print"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
+
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
