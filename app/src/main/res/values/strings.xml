@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tirta Wahyu</string>
+    <string name="app_name">Wahyu Tirta Adi</string>
     <string name="create_user_activity">Pendaftaran Pengguna</string>
 
     <string name="double_back_to_exit">Tekan Sekali lagi Untuk Keluar</string>
@@ -8,6 +8,7 @@
     <string name="tv_quantity">Jumlah</string>
     <string name="tv_sub_total">Sub-Total</string>
     <string name="tv_total">Total</string>
+    <string name="tv_price">Harga</string>
     <string name="tv_loading">Loading...</string>
 
     <string name="hint_display_name">Nama Pengguna</string>
@@ -52,6 +53,8 @@
 
     <string name="get_document_failed">Gagal mengambil data, silahkan coba lagi.</string>
     <string name="unknown_failed">Terjadi kesalahan, silahkan coba lagi.</string>
+
+    <string name="not_connected">Bluetooth printer tidak terhubung.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

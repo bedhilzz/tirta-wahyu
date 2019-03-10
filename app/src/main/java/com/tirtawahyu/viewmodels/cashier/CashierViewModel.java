@@ -2,28 +2,23 @@ package com.tirtawahyu.viewmodels.cashier;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.databinding.BindingAdapter;
-import android.databinding.InverseBindingAdapter;
 import android.support.annotation.NonNull;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.tirtawahyu.R;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tirtawahyu.db.CashierRepository;
+import com.tirtawahyu.model.Item;
 import com.tirtawahyu.model.Receipt;
 import com.tirtawahyu.model.Ticket;
 import com.tirtawahyu.util.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CashierViewModel extends AndroidViewModel {
     private CashierRepository cashierRepository;
@@ -34,24 +29,19 @@ public class CashierViewModel extends AndroidViewModel {
 
     public MutableLiveData<ArrayList<Ticket>> ticketList;
 
-    public MutableLiveData<ArrayList<Integer>> spinnerArray;
+    public MutableLiveData<ArrayList<Item>> itemList;
+
 
     public CashierViewModel(@NonNull Application application) {
         super(application);
         cashierRepository = CashierRepository.newInstance();
         printButtonEnabled = new MutableLiveData<>();
         totalPrice = new MutableLiveData<>();
+        itemList = new MutableLiveData<>();
         ticketList = new MutableLiveData<>();
-        spinnerArray = new MutableLiveData<>();
 
+        initItems();
         ticketList.setValue(new ArrayList<Ticket>());
-
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            arrayList.add(i);
-        }
-
-        spinnerArray.setValue(arrayList);
 
         printButtonEnabled.setValue(!ticketList.getValue().isEmpty());
     }
@@ -64,17 +54,17 @@ public class CashierViewModel extends AndroidViewModel {
         Date now = new Date();
 
         for (Ticket t : tickets) {
-            int ticketId = t.getTicketId();
+            String ticketType = t.getTipe();
             int jumlah = t.getJumlah();
 
-            switch (ticketId) {
-                case R.id.radioUmum:
+            switch (ticketType) {
+                case "Umum":
                     general = jumlah;
                     break;
-                case R.id.radioMember:
+                case "Member":
                     member = jumlah;
                     break;
-                case R.id.radioFreePass:
+                default:
                     freePass = jumlah;
                     break;
             }
@@ -85,5 +75,24 @@ public class CashierViewModel extends AndroidViewModel {
 
     public Task<DocumentReference> createTransaction() {
         return cashierRepository.createTransaction(newReceipt());
+    }
+
+    public Task<QuerySnapshot> getItems() {
+        return cashierRepository.getItems();
+    }
+
+    private void initItems() {
+        final ArrayList<Item> items = new ArrayList<>();
+        getItems().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> snapshots = queryDocumentSnapshots.getDocuments();
+                for (DocumentSnapshot item: snapshots) {
+                    Item i = new Item(item.getId(), (String) item.get("type"), (int)((long) item.get("price")));
+                    items.add(i);
+                }
+                itemList.setValue(items);
+            }
+        });
     }
 }

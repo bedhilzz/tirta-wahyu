@@ -43,9 +43,6 @@ public class AdminActivity extends AppCompatActivity
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
-    @BindView(R.id.tvLoading)
-    TextView tvLoading;
-
     @BindView(R.id.content_admin)
     ConstraintLayout adminLayout;
 
@@ -66,7 +63,7 @@ public class AdminActivity extends AppCompatActivity
         tvNavHeaderTitle = headerView.findViewById(R.id.tv_nav_header_title);
         tvNavHeaderSubtitle = headerView.findViewById(R.id.tv_nav_header_subtitle);
 
-        String creationDate = Util.formatDate(mAuth.getCurrentUser().getMetadata().getCreationTimestamp());
+        String creationDate = Util.formatDate(mAuth.getCurrentUser().getMetadata().getCreationTimestamp(), "d MMMM yyyy");
         tvNavHeaderTitle.setText(mAuth.getCurrentUser().getDisplayName());
         tvNavHeaderSubtitle.setText(creationDate);
 
@@ -118,7 +115,6 @@ public class AdminActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         drawer.closeDrawer(GravityCompat.START);
@@ -130,6 +126,7 @@ public class AdminActivity extends AppCompatActivity
 
         if (id == R.id.nav_price_management) {
             titleBar = getString(R.string.menu_price_management);
+            fragmentClass = PriceFragment.class;
         } else if (id == R.id.nav_statistic) {
             titleBar = getString(R.string.menu_statistic);
             fragmentClass = StatisticFragment.class;
@@ -159,7 +156,6 @@ public class AdminActivity extends AppCompatActivity
     @Override
     public void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
-        tvLoading.setVisibility(View.VISIBLE);
         adminLayout.setVisibility(View.GONE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -168,7 +164,6 @@ public class AdminActivity extends AppCompatActivity
     @Override
     public void hideLoading() {
         progressBar.setVisibility(View.GONE);
-        tvLoading.setVisibility(View.GONE);
         adminLayout.setVisibility(View.VISIBLE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }

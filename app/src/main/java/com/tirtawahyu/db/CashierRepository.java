@@ -3,8 +3,11 @@ package com.tirtawahyu.db;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.tirtawahyu.model.Receipt;
 
 public class CashierRepository {
@@ -35,5 +38,13 @@ public class CashierRepository {
         CollectionReference receiptRef = database.collection("receipt");
 
         return receiptRef.add(receipt);
+    }
+
+    public Task<QuerySnapshot> getItems() {
+        Query collectionReference = database.
+                collection("price").
+                orderBy("price", Query.Direction.DESCENDING);
+
+        return collectionReference.get();
     }
 }

@@ -16,11 +16,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DocumentSnapshot} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class PriceAdapter extends RecyclerView.Adapter<PriceAdapter.ViewHolder> {
 
     private final List<DocumentSnapshot> mValues;

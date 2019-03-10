@@ -22,12 +22,6 @@ import com.tirtawahyu.util.Loading;
 
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
 public class PriceFragment extends Fragment {
 
     // TODO: Customize parameter argument names
@@ -68,33 +62,31 @@ public class PriceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_price_list, container, false);
 
-        if (view instanceof RecyclerView) {
-            final Context context = view.getContext();
-            final Loading loadingContext = (Loading) context;
+        final Context context = view.getContext();
+        final Loading loadingContext = (Loading) context;
 
-            ((Loading) context).showLoading();
-            final RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-
-            db.collection("price").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        List<DocumentSnapshot> items = task.getResult().getDocuments();
-                        recyclerView.setAdapter(new PriceAdapter(items, mListener));
-                    } else {
-                        String taskFailed = getString(R.string.get_document_failed);
-                        Toast.makeText(context, taskFailed,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                    loadingContext.hideLoading();
-                }
-            });
+        ((Loading) context).showLoading();
+        final RecyclerView recyclerView = view.findViewById(R.id.price_list);
+        if (mColumnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
+
+        db.collection("price").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<DocumentSnapshot> items = task.getResult().getDocuments();
+                    recyclerView.setAdapter(new PriceAdapter(items, mListener));
+                } else {
+                    String taskFailed = getString(R.string.get_document_failed);
+                    Toast.makeText(context, taskFailed,
+                            Toast.LENGTH_SHORT).show();
+                }
+                loadingContext.hideLoading();
+            }
+        });
         return view;
     }
 

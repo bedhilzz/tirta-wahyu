@@ -5,23 +5,23 @@ package com.tirtawahyu.model;
  */
 
 public class Ticket {
-    private int ticketId;
+    private String ticketId;
     private String tipe;
     private int jumlah;
     private int total;
 
-    public Ticket(int ticketId, String tipe, int jumlah, int total) {
+    public Ticket(String ticketId, String tipe, int jumlah, int total) {
         this.ticketId = ticketId;
         this.tipe = tipe;
         this.jumlah = jumlah;
         this.total = total;
     }
 
-    public int getTicketId() {
+    public String getTicketId() {
         return ticketId;
     }
 
-    public void setTicketId(int ticketId) {
+    public void setTicketId(String ticketId) {
         this.ticketId = ticketId;
     }
 
@@ -52,6 +52,6 @@ public class Ticket {
     @Override
     public boolean equals(Object obj) {
         Ticket other = (Ticket) obj;
-        return ticketId == other.ticketId;
+        return ticketId.equals(other.ticketId);
     }
 }

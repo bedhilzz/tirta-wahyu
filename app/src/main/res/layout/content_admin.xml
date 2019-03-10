@@ -19,17 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tvLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/tv_loading"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/content_admin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress" />
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/content_admin"
         android:layout_width="match_parent"

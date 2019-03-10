@@ -55,9 +55,9 @@ public class Util {
         return role.equals(admin);
     }
 
-    public static String formatDate(long dateLong) {
+    public static String formatDate(long dateLong, String pattern) {
         Date date = new Date(dateLong);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         String dateStr = dateFormat.format(date);
         return dateStr;
     }
@@ -70,18 +70,5 @@ public class Util {
     public static boolean sameMonth(Date date1, Date date2) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMM");
         return fmt.format(date1).equals(fmt.format(date2));
-    }
-
-    public static int priceTicketWith(int ticketId) {
-        int price = 0;
-        switch (ticketId) {
-            case R.id.radioUmum:
-                price = Constants.TIKET_UMUM;
-                break;
-            case R.id.radioMember:
-                price = Constants.TIKET_MEMBER;
-                break;
-        }
-        return price;
     }
 }

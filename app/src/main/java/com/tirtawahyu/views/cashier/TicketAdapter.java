@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.tirtawahyu.R;
@@ -27,7 +27,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     private Updateable context;
 
     public static class TicketViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tipeInfoViewHolder)
+        @BindView(R.id.jumlahViewHolder)
         TextView tipeInfo;
 
         @BindView(R.id.jumlahInfoViewHolder)
@@ -37,7 +37,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
         TextView totalInfo;
 
         @BindView(R.id.deleteButton)
-        Button deleteButton;
+        ImageButton deleteButton;
 
         private TicketAdapter adapter;
 
@@ -110,9 +110,10 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
 
             Ticket existingTicket = ticketList.get(index);
             int jumlah = existingTicket.getJumlah();
+            int price = existingTicket.getTotal()/jumlah;
 
             jumlah += ticket.getJumlah();
-            int total = jumlah * Util.priceTicketWith(existingTicket.getTicketId());
+            int total = jumlah * price;
 
             ticket.setJumlah(jumlah);
             ticket.setTotal(total);
