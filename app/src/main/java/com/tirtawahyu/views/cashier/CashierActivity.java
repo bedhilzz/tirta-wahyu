@@ -15,6 +15,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -48,7 +49,7 @@ import static com.tirtawahyu.util.bluetooth.BluetoothService.STATE_CONNECTED;
 import static com.tirtawahyu.util.bluetooth.BluetoothService.STATE_CONNECTING;
 import static com.tirtawahyu.util.bluetooth.BluetoothService.STATE_NONE;
 
-public class CashierActivity extends AppCompatActivity implements Updateable, OnCompleteListener<DocumentReference>, ItemAdapter.OnAddItemClickListener {
+public class CashierActivity extends AppCompatActivity implements Updateable, OnCompleteListener<DocumentReference>, ItemAdapter.OnAddItemClickListener, TransactionDialogFragment.TransactionDialogListener {
     private static final int REQUEST_ENABLE_BT = 2;
 
     private TicketAdapter ticketAdapter;
@@ -104,7 +105,7 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
         }
 
         this.doubleBackToExitPressedOnce = true;
-        showSnackBar(getString(R.string.double_back_to_exit));
+        showToast(getString(R.string.double_back_to_exit));
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -137,7 +138,12 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
     public void onComplete(@NonNull Task<DocumentReference> task) {
         binding.setIsLoading(false);
         if (task.isSuccessful()) {
-            sendDataByte(PrinterController.getFormattedReceipt(viewModel.ticketList.getValue()));
+            sendDataByte(
+                    PrinterController.getFormattedReceipt(
+                            viewModel.ticketList.getValue(),
+                            viewModel.paymentAmount.getValue()
+                    )
+            );
             resetComponent();
         }
     }
@@ -174,6 +180,13 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
         }
     }
 
+    @Override
+    public void onTransactionDialogSuccess(int paymentAmount) {
+        binding.setIsLoading(true);
+        viewModel.createTransaction().addOnCompleteListener(this);
+        viewModel.paymentAmount.setValue(paymentAmount);
+    }
+
     private void initComponent() {
         initViewModel();
         initPrintButton();
@@ -188,7 +201,6 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
 
         ticketAdapter.setTicketList(viewModel.ticketList.getValue());
         ticketAdapter.notifyDataSetChanged();
-
     }
 
     private void initPrintButton() {
@@ -197,7 +209,6 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
         binding.printButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.setIsLoading(true);
                 createTransaction();
             }
         });
@@ -323,14 +334,18 @@ public class CashierActivity extends AppCompatActivity implements Updateable, On
                 initBluetoothService();
             } else {
                 if (mService.getState() == STATE_CONNECTED) {
-                    viewModel.createTransaction().addOnCompleteListener(this);
+                    showTransactionDialog();
                 } else {
                     showSnackBar(getString(R.string.bluetooth_not_connected));
-                    binding.setIsLoading(false);
                 }
             }
         }
-        binding.setIsLoading(false);
+    }
+
+    private void showTransactionDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        TransactionDialogFragment dialog = TransactionDialogFragment.newInstance(ticketAdapter.getTotalPrice());
+        dialog.show(fm, getCallingPackage());
     }
 
     private void sendDataByte(byte[] data) {

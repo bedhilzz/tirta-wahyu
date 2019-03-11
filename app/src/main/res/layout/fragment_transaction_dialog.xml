@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="18dp"
+    android:paddingRight="18dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/tv_total"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="@dimen/customTitle"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/tv_calculator_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/dummy_price"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/customEntry"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/tv_payment_ammount"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="@dimen/customTitle"
+        android:textStyle="bold"
+        />
+
+    <EditText
+        android:id="@+id/et_payment_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:inputType="number"
+        android:hint=""
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/customEntry"
+        tools:ignore="HardcodedText,LabelFor"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="@string/tv_change"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="@dimen/customTitle"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/tv_calculator_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/dummy_price"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="@dimen/customEntry"
+        />
+</LinearLayout>

@@ -27,6 +27,8 @@ public class CashierViewModel extends AndroidViewModel {
 
     public MutableLiveData<String> totalPrice;
 
+    public MutableLiveData<Integer> paymentAmount;
+
     public MutableLiveData<ArrayList<Ticket>> ticketList;
 
     public MutableLiveData<ArrayList<Item>> itemList;
@@ -37,6 +39,7 @@ public class CashierViewModel extends AndroidViewModel {
         cashierRepository = CashierRepository.newInstance();
         printButtonEnabled = new MutableLiveData<>();
         totalPrice = new MutableLiveData<>();
+        paymentAmount = new MutableLiveData<>();
         itemList = new MutableLiveData<>();
         ticketList = new MutableLiveData<>();
 

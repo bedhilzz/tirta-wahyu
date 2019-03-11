@@ -10,8 +10,12 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class PrinterController {
+    private static final String THIN_HORIZONTAL_DIVIDER = "--------------------------------\n";
+    private static final String THICK_HORIZONTAL_DIVIDER = "================================\n";
+
     private static byte[] data = new byte[]{};
     private static byte[] result = new byte[]{};
+    private static final String ENCODING_METHOD = "GBK";
 
     public static void leftAligned() {
         Command.ESC_Align[2] = 0x00;
@@ -49,41 +53,52 @@ public class PrinterController {
     public static void concat(byte[] newData) {
         data = ArrayUtils.concatByteArrays(data, newData);
     }
-    
-    public static byte[] getFormattedReceipt(ArrayList<Ticket> tickets) {
+
+    public static void concat(String newData) {
         try {
-            centerAligned();
-            textBold();
-            concat("WAHYU TIRTA ADI\n".getBytes("GBK"));
-
-            textNormal();
-
-            concat("--------------------------------\n".getBytes("GBK"));
-            String now = Util.formatDate(new Date().getTime(), "d MMMM yyyy HH:mm:ss");
-            concat(String.format("%s%n", now).getBytes("GBK"));
-            concat("--------------------------------\n".getBytes("GBK"));
-
-            leftAligned();
-
-            int total = 0;
-            for (Ticket t : tickets) {
-                total += t.getTotal();
-                int price = t.getTotal() / t.getJumlah();
-                String ticket = String.format("%-13s  %2s  %5s  %6s%n", t.getTipe(), t.getJumlah(), price, t.getTotal());
-                concat(ticket.getBytes("GBK"));
-            }
-
-            concat("--------------------------------\n".getBytes("GBK"));
-
-            rightAligned();
-
-            String totalPrice = String.format("%s  %s%n%n", "TOTAL:", total);
-            concat(totalPrice.getBytes("GBK"));
-
-            EOF();
+            concat(newData.getBytes(ENCODING_METHOD));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static byte[] getFormattedReceipt(ArrayList<Ticket> tickets, int paymentAmount) {
+        centerAligned();
+        textBold();
+        concat("WAHYU TIRTA AJI\n");
+
+        textNormal();
+
+        concat(THIN_HORIZONTAL_DIVIDER);
+        String now = Util.formatDate(new Date().getTime(), "d/MM/yyyy HH:mm:ss");
+        concat(String.format("%s%n", now));
+        concat(THIN_HORIZONTAL_DIVIDER);
+
+        leftAligned();
+
+        int total = 0;
+        for (Ticket t : tickets) {
+            total += t.getTotal();
+            int price = t.getTotal() / t.getJumlah();
+            String ticket = String.format("%-13s  %2s  %5s  %6s%n", t.getTipe(), t.getJumlah(), price, t.getTotal());
+            concat(ticket);
+        }
+
+        concat(THIN_HORIZONTAL_DIVIDER);
+
+        rightAligned();
+
+        String totalPrice = String.format("%s  %s%n", "TOTAL:", total);
+        concat(totalPrice);
+
+        String payment = String.format("%s  %s%n", "PEMBAYARAN:", paymentAmount);
+        concat(payment);
+
+        String change = String.format("%s  %s%n%n", "KEMBALIAN:", paymentAmount-total);
+        concat(change);
+
+        EOF();
+
         return result;
     }
 }
