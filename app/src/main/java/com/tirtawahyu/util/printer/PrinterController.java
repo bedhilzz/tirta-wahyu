@@ -69,6 +69,8 @@ public class PrinterController {
 
         textNormal();
 
+        concat("Jl. Serayu RT03/02, Sudagaran\nBanyumas, Jawa Tengah\n");
+
         concat(THIN_HORIZONTAL_DIVIDER);
         String now = Util.formatDate(new Date().getTime(), "d/MM/yyyy HH:mm:ss");
         concat(String.format("%s%n", now));
@@ -88,13 +90,13 @@ public class PrinterController {
 
         rightAligned();
 
-        String totalPrice = String.format("%s  %s%n", "TOTAL:", total);
+        String totalPrice = String.format("%s  %6s%n", "TOTAL:", total);
         concat(totalPrice);
 
-        String payment = String.format("%s  %s%n", "PEMBAYARAN:", paymentAmount);
+        String payment = String.format("%s  %6s%n", "PEMBAYARAN:", paymentAmount);
         concat(payment);
 
-        String change = String.format("%s  %s%n%n", "KEMBALIAN:", paymentAmount-total);
+        String change = String.format("%s  %6s%n%n", "KEMBALIAN:", paymentAmount-total);
         concat(change);
 
         EOF();
