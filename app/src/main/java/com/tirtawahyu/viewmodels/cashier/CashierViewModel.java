@@ -12,13 +12,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tirtawahyu.db.CashierRepository;
 import com.tirtawahyu.model.Item;
-import com.tirtawahyu.model.Receipt;
 import com.tirtawahyu.model.Ticket;
 import com.tirtawahyu.util.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CashierViewModel extends AndroidViewModel {
     private CashierRepository cashierRepository;
@@ -49,31 +50,28 @@ public class CashierViewModel extends AndroidViewModel {
         printButtonEnabled.setValue(!ticketList.getValue().isEmpty());
     }
 
-    public Receipt newReceipt() {
+    public Map<String, Object> newReceipt() {
         ArrayList<Ticket> tickets = ticketList.getValue();
+        Map<String, Object> receipt = new HashMap<>();
 
-        int general = 0, member = 0, freePass = 0;
+        for (Ticket t : tickets) {
+            String ticketType = t.getTicketType();
+            int amount = t.getQuantity();
+
+            ticketType = ticketType.replace('-', '_');
+            ticketType = ticketType.replace(' ', '_');
+            ticketType = ticketType.toLowerCase();
+
+            receipt.put(ticketType, amount);
+        }
+
         int total = Util.parsePrice(totalPrice.getValue());
         Date now = new Date();
 
-        for (Ticket t : tickets) {
-            String ticketType = t.getTipe();
-            int jumlah = t.getJumlah();
+        receipt.put("total", total);
+        receipt.put("created_at", now);
 
-            switch (ticketType) {
-                case "Umum":
-                    general = jumlah;
-                    break;
-                case "Member":
-                    member = jumlah;
-                    break;
-                default:
-                    freePass = jumlah;
-                    break;
-            }
-        }
-
-        return new Receipt(general, member, freePass, total, now);
+        return receipt;
     }
 
     public Task<DocumentReference> createTransaction() {

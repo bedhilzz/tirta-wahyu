@@ -90,8 +90,8 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
     public void onBindViewHolder(@NonNull TicketViewHolder ticketViewHolder, int i) {
         Ticket ticket = ticketList.get(i);
 
-        String tipe = ticket.getTipe();
-        String jumlah = String.valueOf(ticket.getJumlah());
+        String tipe = ticket.getTicketType();
+        String jumlah = String.valueOf(ticket.getQuantity());
         String total = Util.formatPrice(ticket.getTotal());
 
         ticketViewHolder.tipeInfo.setText(tipe);
@@ -109,13 +109,13 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketView
             int index = ticketList.indexOf(ticket);
 
             Ticket existingTicket = ticketList.get(index);
-            int jumlah = existingTicket.getJumlah();
+            int jumlah = existingTicket.getQuantity();
             int price = existingTicket.getTotal()/jumlah;
 
-            jumlah += ticket.getJumlah();
+            jumlah += ticket.getQuantity();
             int total = jumlah * price;
 
-            ticket.setJumlah(jumlah);
+            ticket.setQuantity(jumlah);
             ticket.setTotal(total);
 
             ticketList.set(index, ticket);

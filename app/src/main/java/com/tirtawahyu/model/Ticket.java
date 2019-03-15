@@ -6,14 +6,14 @@ package com.tirtawahyu.model;
 
 public class Ticket {
     private String ticketId;
-    private String tipe;
-    private int jumlah;
+    private String ticketType;
+    private int quantity;
     private int total;
 
     public Ticket(String ticketId, String tipe, int jumlah, int total) {
         this.ticketId = ticketId;
-        this.tipe = tipe;
-        this.jumlah = jumlah;
+        this.ticketType = tipe;
+        this.quantity = jumlah;
         this.total = total;
     }
 
@@ -25,20 +25,20 @@ public class Ticket {
         this.ticketId = ticketId;
     }
 
-    public String getTipe() {
-        return tipe;
+    public String getTicketType() {
+        return ticketType;
     }
 
-    public void setTipe(String tipe) {
-        this.tipe = tipe;
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
     }
 
-    public int getJumlah() {
-        return jumlah;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setJumlah(int jumlah) {
-        this.jumlah = jumlah;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getTotal() {

@@ -79,7 +79,7 @@ public class StatisticFragment extends Fragment {
                             for (int i = 0; i < results.size(); i++) {
                                 DocumentSnapshot snapshot = results.get(i);
 
-                                Timestamp createdAt = (Timestamp) snapshot.get("createdAt");
+                                Timestamp createdAt = (Timestamp) snapshot.get("created_at");
                                 Date snapshotDate = createdAt.toDate();
 
                                 if (date == null) {

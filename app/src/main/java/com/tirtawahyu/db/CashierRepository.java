@@ -3,12 +3,12 @@ package com.tirtawahyu.db;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.tirtawahyu.model.Receipt;
+
+import java.util.Map;
 
 public class CashierRepository {
     private static CashierRepository INSTANCE;
@@ -34,7 +34,7 @@ public class CashierRepository {
         return INSTANCE;
     }
 
-    public Task<DocumentReference> createTransaction(Receipt receipt) {
+    public Task<DocumentReference> createTransaction(Map<String, Object> receipt) {
         CollectionReference receiptRef = database.collection("receipt");
 
         return receiptRef.add(receipt);

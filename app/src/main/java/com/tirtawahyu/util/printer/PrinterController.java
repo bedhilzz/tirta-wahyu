@@ -81,8 +81,8 @@ public class PrinterController {
         int total = 0;
         for (Ticket t : tickets) {
             total += t.getTotal();
-            int price = t.getTotal() / t.getJumlah();
-            String ticket = String.format("%-13s  %2s  %5s  %6s%n", t.getTipe(), t.getJumlah(), price, t.getTotal());
+            int price = t.getTotal() / t.getQuantity();
+            String ticket = String.format("%-13s  %2s  %5s  %6s%n", t.getTicketType(), t.getQuantity(), price, t.getTotal());
             concat(ticket);
         }
 
