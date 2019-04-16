@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.tirtawahyu.util.Util;
 
 import java.util.Map;
 
@@ -41,10 +42,15 @@ public class CashierRepository {
     }
 
     public Task<QuerySnapshot> getItems() {
-        Query collectionReference = database.
+        String priceType = "weekday";
+        if (Util.isWeekend()) {
+            priceType = "weekend";
+        }
+        Query query = database.
                 collection("price").
-                orderBy("price", Query.Direction.DESCENDING);
+                whereEqualTo("price_type", priceType).
+                orderBy("type", Query.Direction.ASCENDING);
 
-        return collectionReference.get();
+        return query.get();
     }
 }

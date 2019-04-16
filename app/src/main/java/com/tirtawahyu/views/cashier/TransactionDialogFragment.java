@@ -36,9 +36,9 @@ public class TransactionDialogFragment extends AppCompatDialogFragment {
     public static TransactionDialogFragment newInstance(int total) {
         if (INSTANCE == null) {
             INSTANCE = new TransactionDialogFragment();
-            INSTANCE.total = total;
             INSTANCE.paymentAmount = 0;
         }
+        INSTANCE.total = total;
         return INSTANCE;
     }
 

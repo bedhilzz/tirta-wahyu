@@ -1,7 +1,5 @@
 package com.tirtawahyu.util;
 
-import com.tirtawahyu.R;
-
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,5 +68,12 @@ public class Util {
     public static boolean sameMonth(Date date1, Date date2) {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyyMM");
         return fmt.format(date1).equals(fmt.format(date2));
+    }
+
+    public static boolean isWeekend() {
+        Date now = new Date();
+        SimpleDateFormat fmt = new SimpleDateFormat("E", Locale.US);
+        String day = fmt.format(now);
+        return day.equalsIgnoreCase("Sat") || day.equalsIgnoreCase("Mon");
     }
 }
