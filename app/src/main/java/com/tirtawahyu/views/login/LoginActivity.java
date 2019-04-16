@@ -12,12 +12,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.tirtawahyu.R;
 import com.tirtawahyu.databinding.ActivityLoginBinding;
 import com.tirtawahyu.util.Util;
 import com.tirtawahyu.viewmodels.login.LoginViewModel;
-import com.tirtawahyu.views.admin.AdminActivity;
 import com.tirtawahyu.views.cashier.CashierActivity;
 
 import butterknife.BindString;
@@ -33,10 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
 
     private LoginViewModel viewModel;
-
-    private FirebaseUser user;
-
-    private GetTokenResult userToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,35 +86,18 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     binding.setIsLoading(false);
                 } else {
-                    user = firebaseUser;
-                    viewModel.getTokenFor(user);
+                    startCashierActivity();
                 }
             }
         });
 
-        viewModel.getTokenClaims().observe(this, new Observer<GetTokenResult>() {
-            @Override
-            public void onChanged(@Nullable GetTokenResult token) {
-                if (token != null) {
-                    userToken = token;
-                    decideActivity();
-                }
-            }
-        });
         binding.setViewmodel(viewModel);
 
         binding.setIsLoading(false);
     }
 
-    private void decideActivity() {
-        boolean isAdmin = (boolean) userToken.getClaims().get("admin");
-
-        Intent intent;
-        if (isAdmin) {
-            intent = new Intent(LoginActivity.this, AdminActivity.class);
-        } else {
-            intent = new Intent(LoginActivity.this, CashierActivity.class);
-        }
+    private void startCashierActivity() {
+        Intent intent = new Intent(LoginActivity.this, CashierActivity.class);
         startActivity(intent);
         binding.unbind();
         finish();

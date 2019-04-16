@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
 import com.tirtawahyu.db.LoginRepository;
 import com.tirtawahyu.util.Util;
 
@@ -18,7 +17,6 @@ public class LoginViewModel extends AndroidViewModel {
     public MutableLiveData<String> username = new MutableLiveData<>();
     public MutableLiveData<String> password = new MutableLiveData<>();
     private MutableLiveData<FirebaseUser> firebaseUser;
-    private MutableLiveData<GetTokenResult> tokenClaims;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -31,13 +29,6 @@ public class LoginViewModel extends AndroidViewModel {
             firebaseUser = new MutableLiveData<>();
         }
         return firebaseUser;
-    }
-
-    public LiveData<GetTokenResult> getTokenClaims() {
-        if (tokenClaims== null) {
-            tokenClaims = new MutableLiveData<>();
-        }
-        return tokenClaims;
     }
 
     public void attemptLogin(String username, String password) {
@@ -54,20 +45,5 @@ public class LoginViewModel extends AndroidViewModel {
             }
         });
         loginRepository.attemptLogin(email, password);
-    }
-
-    public void getTokenFor(FirebaseUser user) {
-        loginRepository.addTokenListener(new LoginRepository.LoginRepositoryCallback<GetTokenResult>() {
-            @Override
-            public void onSuccess(GetTokenResult result) {
-                tokenClaims.setValue(result);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                tokenClaims.setValue(null);
-            }
-        });
-        loginRepository.getTokenClaims(user);
     }
 }
